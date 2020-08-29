@@ -25,6 +25,16 @@ type Config struct {
 	ExitOnError bool
 }
 
+func (cfg Config) String() string {
+	var s strings.Builder
+
+	s.WriteString(fmt.Sprintf("Target: %q; ", cfg.Host))
+	s.WriteString(fmt.Sprintf("Interval: %s; ", cfg.Interval))
+	s.WriteString(fmt.Sprintf("Exit on error: %v", cfg.ExitOnError))
+
+	return s.String()
+}
+
 // FanData holds the basic information returned by the fan.
 type FanData struct {
 	ClientID        string `json:"clientID"`
@@ -39,6 +49,7 @@ type FanData struct {
 
 func (fd FanData) String() string {
 	var s strings.Builder
+
 	s.WriteString(fmt.Sprintf("ClientID: %q; ", fd.ClientID))
 	s.WriteString(fmt.Sprintf("Fan: %v (speed: %d, direction: %q); ", fd.FanOn, fd.FanSpeed, fd.FanDirection))
 	s.WriteString(fmt.Sprintf("Wind: %v (speed: %d); ", fd.Wind, fd.WindSpeed))
@@ -56,6 +67,10 @@ func init() {
 	flag.IntVar(&iv, "interval", 10, "Polling interval in seconds")
 	flag.BoolVar(&cfg.ExitOnError, "exit-on-error", true, "Exit polling loop on error")
 	flag.Parse()
+
+	if cfg.Host == "" {
+		log.Fatalf("Target host must be specified.")
+	}
 
 	cfg.Interval = time.Duration(iv) * time.Second
 }
@@ -92,11 +107,7 @@ func PollFan(host string) (*FanData, error) {
 }
 
 func main() {
-	if cfg.Host == "" {
-		log.Fatalf("Target host must be specified.")
-	}
-
-	log.Printf("Polling interval has been set to %s", cfg.Interval)
+	log.Print(cfg)
 
 	for {
 		fd, err := PollFan(cfg.Host)
