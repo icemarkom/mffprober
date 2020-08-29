@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 )
@@ -95,18 +96,23 @@ func main() {
 		log.Fatalf("Target host must be specified.")
 	}
 
+	log.Printf("Polling interval has been set to %s", cfg.Interval)
+
 	for {
 		fd, err := PollFan(cfg.Host)
-		if err != nil {
-			msg := fmt.Sprintf("Error reading fan information from %q: %v.", cfg.Host, err)
-			if cfg.ExitOnError {
-				log.Fatalf(msg)
+		switch err != nil {
+		case true:
+			{
+				log.Printf("Error reading fan information from %q: %v.", cfg.Host, err)
+				if cfg.ExitOnError {
+					os.Exit(42)
+				}
 			}
-			log.Printf(msg)
-		} else {
-			log.Print(fd)
+		case false:
+			{
+				log.Print(fd)
+			}
+			time.Sleep(cfg.Interval)
 		}
-		log.Printf("Sleeping for %v", cfg.Interval)
-		time.Sleep(cfg.Interval)
 	}
 }
