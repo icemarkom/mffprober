@@ -49,12 +49,14 @@ func (fd FanData) String() string {
 var cfg Config
 
 func init() {
+	var iv int
 
 	flag.StringVar(&cfg.Host, "host", "", "Host to probe")
-	cfg.Interval = time.Duration(*flag.Int("interval", 10, "Polling interval in seconds")) * time.Second
+	flag.IntVar(&iv, "interval", 10, "Polling interval in seconds")
 	flag.BoolVar(&cfg.ExitOnError, "exit-on-error", true, "Exit polling loop on error")
-
 	flag.Parse()
+
+	cfg.Interval = time.Duration(iv) * time.Second
 }
 
 // PollFan executes HTTP POST to query the fan status, reporting error.
@@ -104,7 +106,7 @@ func main() {
 		} else {
 			log.Print(fd)
 		}
-		log.Printf("Sleeping for %v\n", cfg.Interval)
+		log.Printf("Sleeping for %v", cfg.Interval)
 		time.Sleep(cfg.Interval)
 	}
 }
