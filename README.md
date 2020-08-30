@@ -26,3 +26,6 @@ There are a few other flags of interest:
 - `exit-on-error`: Leave the polling loop on first error (of any kind). If not
   set, prober will continue attempting to talk to the fan, even if it receives
   errors. Defaults to `true`.
+- `timeout`: HTTP client timeout in seconds. Defaults to 1.
+- `quiet`: Log only probing and other errors. No other output is produced.
+  Defaults to `false`.
