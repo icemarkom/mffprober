@@ -4,11 +4,12 @@ This came from discussion on
 [Home Assistant forum](https://community.home-assistant.io/t/modern-forms-smart-fans-integration/109318/36),
 where a few users of Modern Forms fans were finding their fans to stop
 responding over time. I wanted to build a simple prober service outside the HA
-codebase to see if excessive problem, or perhaps something else.
+codebase to see if excessive probing was causing the problem, or perhaps
+something else was the cause.
 
 Note: All API commands are from the code-base of the
 [Modern Forms integration](https://github.com/jimpastos/ha-modernforms), since
-I was unable to fund any documented API.
+I was unable to find any documented API elsewhere.
 
 ## Usage
 
