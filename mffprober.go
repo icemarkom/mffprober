@@ -120,13 +120,14 @@ func main() {
 		log.Print(cfg)
 	}
 
+	probeCount := 1
 	for {
 		fd, err := PollFan(cfg.Host)
 		switch err != nil {
 		case true:
 			{
 				log.SetOutput(os.Stderr)
-				log.Printf("Error reading fan information from %q: %v.", cfg.Host, err)
+				log.Printf("Probe #%d: error reading fan information from %q: %v.", probeCount, cfg.Host, err)
 				if cfg.ExitOnError {
 					os.Exit(42)
 				}
@@ -135,9 +136,10 @@ func main() {
 		case false:
 			{
 				if !cfg.Quiet {
-					log.Print(fd)
+					log.Printf("Probe #%d: %s", probeCount, fd)
 				}
 			}
+			probeCount++
 			time.Sleep(cfg.Interval)
 		}
 	}
