@@ -120,8 +120,7 @@ func main() {
 		log.Print(cfg)
 	}
 
-	probeCount := 1
-	for {
+	for probeCount := 1; ; probeCount++ {
 		fd, err := PollFan(cfg.Host)
 		switch err != nil {
 		case true:
@@ -139,7 +138,6 @@ func main() {
 					log.Printf("Probe #%d: %s", probeCount, fd)
 				}
 			}
-			probeCount++
 			time.Sleep(cfg.Interval)
 		}
 	}
