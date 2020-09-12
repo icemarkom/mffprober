@@ -13,7 +13,7 @@ I was unable to find any documented API elsewhere.
 
 ## Usage
 
-Basic usage: 
+Basic usage:
 
 ```shell
 cd main
