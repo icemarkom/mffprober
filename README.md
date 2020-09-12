@@ -16,7 +16,8 @@ I was unable to find any documented API elsewhere.
 Basic usage: 
 
 ```shell
-go run mffprober.go --host={{ip_address}}
+cd main
+go run main.go --host={{ip_address}}
 ```
 
 There are a few other flags of interest:
