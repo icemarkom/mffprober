@@ -13,11 +13,13 @@ I was unable to find any documented API elsewhere.
 
 ## Usage
 
+NOTE: This is assuming you are using the binary release from the
+[releases](https://github.com/icemarkom/mffprober/releases) page.
+
 Basic usage:
 
 ```shell
-cd main
-go run main.go --host={{ip_address}}
+mffprober --host={{ip_address}}
 ```
 
 There are a few other flags of interest:
@@ -30,3 +32,4 @@ There are a few other flags of interest:
 - `timeout`: HTTP client timeout in seconds. Defaults to 1.
 - `quiet`: Log only probing and other errors. No other output is produced.
   Defaults to `false`.
+- `version`: Print version and exit.
