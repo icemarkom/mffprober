@@ -1,0 +1,63 @@
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: mffprober
+    main: ./main
+    ldflags:
+      - -s
+      - -w 
+      - -X main.version={{.Version}}
+      - -X main.gitCommit={{.ShortCommit}}
+    targets:
+      - linux_amd64
+      - linux_arm64
+      - linux_arm
+      - darwin_amd64
+      - darwin_arm64
+      - windows_amd64
+      - windows_386
+
+universal_binaries:
+  - id: mffprober
+    replace: true
+
+archives:
+  - id: mffprober
+    format_overrides:
+      - goos: windows
+        format: zip
+      - goos: darwin
+        format: zip
+    replacements:
+      arm: armhf
+      darwin: macOS
+  
+nfpms:
+  - id: mffprober
+    maintainer: "Marko Milivojevic <markom@gmail.com>"
+    description: "Modern Forms Fan prober See: https://github.com/icemarkom/mffprober"
+    bindir: /usr/local/bin
+    formats:
+      - apk
+      - deb
+      - rpm
+    replacements:
+      arm: armhf
+
+checksum:
+  name_template: 'checksums.txt'
+
+snapshot:
+  name_template: "{{ incpatch .Version }}-dev"
+
+changelog:
+  use: github
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+
+announce:
+  skip: "true"
