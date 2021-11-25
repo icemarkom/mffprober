@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"os"
 	"time"
@@ -10,23 +11,34 @@ import (
 	"github.com/icemarkom/mffprober/cmd"
 )
 
-var cfg mffp.Config
+var (
+	cfg                mffp.Config
+	version, gitCommit string
+)
+
+func printVersion(v, g string) {
+	fmt.Printf("Version: %s\n Commit: %s\n", v, g)
+}
 
 func init() {
-	var iv, to int
+	var v bool
 
 	flag.StringVar(&cfg.Host, "host", "", "Host to probe")
-	flag.IntVar(&iv, "interval", 10, "Polling interval in seconds")
+	flag.DurationVar(&cfg.Interval, "interval", 10*time.Second, "Polling interval in seconds")
 	flag.BoolVar(&cfg.ExitOnError, "exit-on-error", true, "Exit polling loop on error")
 	flag.BoolVar(&cfg.Quiet, "quiet", false, "Log only polling errors")
-	flag.IntVar(&to, "timeout", 1, "Polling probe timeout in seconds")
+	flag.DurationVar(&cfg.Timeout, "timeout", 1*time.Second, "Polling probe timeout in seconds")
+	flag.BoolVar(&v, "version", false, "Show version")
 	flag.Parse()
+
+	if v {
+		printVersion(version, gitCommit)
+		os.Exit(42)
+	}
 
 	if cfg.Host == "" {
 		log.Fatalf("Target host must be specified.")
 	}
-	cfg.Interval = time.Duration(iv) * time.Second
-	cfg.Timeout = time.Duration(to) * time.Second
 	log.SetOutput(os.Stdout)
 }
 
