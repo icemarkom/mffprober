@@ -28,12 +28,22 @@ func init() {
 	flag.BoolVar(&cfg.ExitOnError, "exit-on-error", true, "Exit polling loop on error")
 	flag.BoolVar(&cfg.Quiet, "quiet", false, "Log only polling errors")
 	flag.DurationVar(&cfg.Timeout, "timeout", 1*time.Second, "Polling probe timeout in seconds")
+	flag.IntVar(&cfg.MaxCount, "maxcount", 0, "Maximum number of probes (0 means unlimited)")
+	flag.IntVar(&cfg.MaxFail, "maxfail", 0, "Maximum number of failed probes")
 	flag.BoolVar(&v, "version", false, "Show version")
 	flag.Parse()
 
 	if v {
 		printVersion(version, gitCommit)
 		os.Exit(42)
+	}
+
+	if cfg.MaxCount < 0 {
+		log.Fatalf("Maximum probe count must be greater or equal to 0.")
+	}
+
+	if cfg.MaxFail < 0 {
+		log.Fatalf("Maximum probe number of failed probes be greater or equal to 0.")
 	}
 
 	if cfg.Host == "" {
