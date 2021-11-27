@@ -30,6 +30,7 @@ There are a few other flags of interest:
 - `interval`: Polling interval in seconds (default 10 seconds).
 - `maxfail`: Maximum number of failed probes (0 means unlimited) (default 1).
 - `quiet`: Log only polling errors.
+- `reboot`: Reboot fan. Ignores most flags.
 - `timeout`: Polling probe timeout in seconds (default 1 second).
 - `version`: Show version.
 
