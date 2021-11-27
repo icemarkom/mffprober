@@ -29,14 +29,14 @@ func init() {
 	)
 	flag.Usage = func() { programUsage() }
 
-	flag.StringVar(&h, "host", "", "DEPRECATED: Specify host name/address after the flags.")
+	flag.StringVar(&h, "host", "", "DEPRECATED: Specify host name/address after the flags")
 	flag.DurationVar(&cfg.Interval, "interval", 10*time.Second, "Polling interval in seconds")
 	flag.BoolVar(&e, "exit-on-error", true, "DEPRECATED: Use maxfail=0 to disable, or a positive value to control")
 	flag.BoolVar(&cfg.Quiet, "quiet", false, "Log only polling errors")
 	flag.DurationVar(&cfg.Timeout, "timeout", 1*time.Second, "Polling probe timeout in seconds")
 	flag.IntVar(&cfg.Count, "count", 0, "Maximum number of probes (0 means unlimited)")
 	flag.IntVar(&cfg.MaxFailCount, "maxfail", 1, "Maximum number of failed probes (0 means unlimited)")
-	flag.BoolVar(&cfg.Reboot, "reboot", false, "Reboot fan. Ignores most flags.")
+	flag.BoolVar(&cfg.Reboot, "reboot", false, "Reboot fan. Ignores most flags")
 	flag.BoolVar(&v, "version", false, "Show version")
 	flag.Parse()
 
