@@ -21,9 +21,12 @@ func printVersion(v, g string) {
 }
 
 func init() {
-	var v, e bool
+	var (
+		v, e bool
+		h    string
+	)
 
-	flag.StringVar(&cfg.Host, "host", "", "Host to probe")
+	flag.StringVar(&h, "host", "", "DEPRECATED: Specify host name/address after the flags.")
 	flag.DurationVar(&cfg.Interval, "interval", 10*time.Second, "Polling interval in seconds")
 	flag.BoolVar(&e, "exit-on-error", true, "DEPRECATED: Use maxfail=0 to disable, or a positive value to control")
 	flag.BoolVar(&cfg.Quiet, "quiet", false, "Log only polling errors")
@@ -38,11 +41,18 @@ func init() {
 		os.Exit(42)
 	}
 
+	// Handle deprecated "host" flag gracefully.
+	if h != "" {
+		log.SetOutput(os.Stderr)
+		log.Printf("You have used deprecated %q flag. Specify host name/address after the flags.", "host")
+		cfg.Host = h
+	}
+
+	// Handle deprecated "exit-on-error" flag gracefully.
 	if !e {
 		log.SetOutput(os.Stderr)
 		log.Printf("You have used deprecated %q flag. Use %q in the future.", "exit-on-error", "maxfail=0")
 		cfg.MaxFailCount = 0
-		log.SetOutput(os.Stderr)
 	}
 
 	if cfg.Count < 0 {
@@ -53,9 +63,15 @@ func init() {
 		log.Fatalf("Maximum probe number of failed probes be greater or equal to 0.")
 	}
 
+	// More complex logic here needed to allow for using --host.
 	if cfg.Host == "" {
-		log.Fatalf("Target host must be specified.")
+		if flag.NArg() == 0 {
+			log.SetOutput(os.Stderr)
+			log.Fatalf("Target host must be specified.")
+		}
+		cfg.Host = flag.Arg(0)
 	}
+
 	log.SetOutput(os.Stdout)
 }
 
