@@ -17,9 +17,9 @@ import (
 func PollFan(cfg *mffp.Config) (*mffp.FanData, error) {
 	fd := new(mffp.FanData)
 
-	url := fmt.Sprintf("http://%s/%s", cfg.Host, mffp.MFFTarget)
+	u := fmt.Sprintf("http://%s/%s", cfg.Host, mffp.MFFTarget)
 
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(mffp.MFFQuery)))
+	req, err := http.NewRequest("POST", u, bytes.NewBuffer([]byte(mffp.MFFQuery)))
 	if err != nil {
 		return nil, fmt.Errorf("error formatting request: %w", err)
 	}
