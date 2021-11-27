@@ -10,6 +10,7 @@ builds:
       - -w 
       - -X main.version={{.Version}}
       - -X main.gitCommit={{.ShortCommit}}
+      - -X main.binaryName={{.ProjectName}}
     targets:
       - linux_amd64
       - linux_arm64

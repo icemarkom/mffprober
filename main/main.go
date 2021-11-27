@@ -12,8 +12,10 @@ import (
 )
 
 var (
-	cfg                mffp.Config
-	version, gitCommit string
+	cfg        mffp.Config
+	version    = "development"
+	gitCommit  = ""
+	binaryName = "mffprober"
 )
 
 func printVersion(v, g string) {
@@ -25,6 +27,7 @@ func init() {
 		v, e bool
 		h    string
 	)
+	flag.Usage = func() { programUsage() }
 
 	flag.StringVar(&h, "host", "", "DEPRECATED: Specify host name/address after the flags.")
 	flag.DurationVar(&cfg.Interval, "interval", 10*time.Second, "Polling interval in seconds")
