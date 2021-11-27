@@ -24,7 +24,7 @@ func printVersion() {
 
 func init() {
 	var (
-		v, e bool
+		e, v bool
 		h    string
 	)
 	flag.Usage = func() { programUsage() }
@@ -36,6 +36,7 @@ func init() {
 	flag.DurationVar(&cfg.Timeout, "timeout", 1*time.Second, "Polling probe timeout in seconds")
 	flag.IntVar(&cfg.Count, "count", 0, "Maximum number of probes (0 means unlimited)")
 	flag.IntVar(&cfg.MaxFailCount, "maxfail", 1, "Maximum number of failed probes (0 means unlimited)")
+	flag.BoolVar(&cfg.Reboot, "reboot", false, "Reboot fan. Ignores most flags.")
 	flag.BoolVar(&v, "version", false, "Show version")
 	flag.Parse()
 
@@ -82,7 +83,16 @@ func main() {
 	if !cfg.Quiet {
 		log.Print(cfg)
 	}
-	fc := cmd.ProbeFan(&cfg)
+	command := cmd.ProbeFan
+	if cfg.Reboot {
+		command = cmd.RebootFan
+	}
+	fc, err := command(&cfg)
+	if err != nil {
+		if !cfg.Quiet {
+			fmt.Fprintf(os.Stderr, "%v\n", err)
+		}
+	}
 	if fc > 255 {
 		os.Exit(255)
 	}
