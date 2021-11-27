@@ -22,6 +22,7 @@ type Config struct {
 	Quiet               bool
 	Timeout             time.Duration
 	Count, MaxFailCount int
+	Reboot              bool
 }
 
 func (cfg Config) String() string {
@@ -59,22 +60,3 @@ func (fd FanData) String() string {
 
 	return s.String()
 }
-
-// // RebootFan executes HTTP POST to reboot the fan.
-// func RebootFan(host string) error {
-// 	url := fmt.Sprintf("http://%s/%s", mffprober.cfg.Host, apiTarget)
-
-// 	req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(apiReboot)))
-// 	if err != nil {
-// 		return fmt.Errorf("error formatting request: %w", err)
-// 	}
-
-// 	hc := &http.Client{
-// 		Timeout: cfg.Timeout,
-// 	}
-// 	_, err = hc.Do(req)
-// 	if err != nil {
-// 		return fmt.Errorf("error rebooting the fan: %w", err)
-// 	}
-// 	return nil
-// }

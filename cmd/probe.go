@@ -47,17 +47,24 @@ func PollFan(cfg *mffp.Config) (*mffp.FanData, error) {
 }
 
 // ProbeFan runs continuous fan poller.
-func ProbeFan(cfg *mffp.Config) int {
-	var probeCount, failCount int
+func ProbeFan(cfg *mffp.Config) (int, error) {
+	var (
+		probeCount, failCount int
+		err                   error
+		fd                    *mffp.FanData
+	)
 
 	for probeCount = 1; cfg.Count == 0 || probeCount <= cfg.Count; probeCount++ {
-		fd, err := PollFan(cfg)
+		fd, err = PollFan(cfg)
 		if err != nil {
 			failCount++
 			log.SetOutput(os.Stderr)
-			log.Printf("Probe #%d (%d success, %d fail): error reading fan information from %q: %v.", probeCount, probeCount-failCount, failCount, cfg.Host, err)
+			err = fmt.Errorf("error reading fan information from %q: %w", cfg.Host, err)
+			if !cfg.Quiet {
+				log.Printf("Probe #%d (%d success, %d fail): %v.", probeCount, probeCount-failCount, failCount, err)
+			}
 			if cfg.MaxFailCount > 0 && failCount >= cfg.MaxFailCount {
-				return failCount
+				break
 			}
 			log.SetOutput(os.Stdout)
 			time.Sleep(cfg.Interval)
@@ -68,5 +75,5 @@ func ProbeFan(cfg *mffp.Config) int {
 		}
 		time.Sleep(cfg.Interval)
 	}
-	return 0
+	return failCount, nil
 }
