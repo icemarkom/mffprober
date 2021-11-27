@@ -17,11 +17,11 @@ const (
 
 // Config holds the configuration parameters used throughout the prober.
 type Config struct {
-	Host        string
-	Interval    time.Duration
-	ExitOnError bool
-	Quiet       bool
-	Timeout     time.Duration
+	Host                string
+	Interval            time.Duration
+	Quiet               bool
+	Timeout             time.Duration
+	Count, MaxFailCount int
 }
 
 func (cfg Config) String() string {
@@ -30,8 +30,9 @@ func (cfg Config) String() string {
 	s.WriteString(fmt.Sprintf("Target: %q; ", cfg.Host))
 	s.WriteString(fmt.Sprintf("Interval: %s; ", cfg.Interval))
 	s.WriteString(fmt.Sprintf("Timeout: %s; ", cfg.Timeout))
-	s.WriteString(fmt.Sprintf("Exit on error: %v; ", cfg.ExitOnError))
-	s.WriteString(fmt.Sprintf("Quiet mode: %v", cfg.Quiet))
+	s.WriteString(fmt.Sprintf("Quiet mode: %v; ", cfg.Quiet))
+	s.WriteString(fmt.Sprintf("Probe count: %v; ", cfg.Count))
+	s.WriteString(fmt.Sprintf("Max failed probes: %v", cfg.MaxFailCount))
 
 	return s.String()
 }
