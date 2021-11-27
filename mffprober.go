@@ -32,8 +32,11 @@ func (cfg Config) String() string {
 	s.WriteString(fmt.Sprintf("Interval: %s; ", cfg.Interval))
 	s.WriteString(fmt.Sprintf("Timeout: %s; ", cfg.Timeout))
 	s.WriteString(fmt.Sprintf("Quiet mode: %v; ", cfg.Quiet))
-	s.WriteString(fmt.Sprintf("Probe count: %v; ", cfg.Count))
-	s.WriteString(fmt.Sprintf("Max failed probes: %v", cfg.MaxFailCount))
+	if !cfg.Reboot {
+		s.WriteString(fmt.Sprintf("Probe count: %v; ", cfg.Count))
+		s.WriteString(fmt.Sprintf("Max failed probes: %v", cfg.MaxFailCount))
+	}
+	s.WriteString(fmt.Sprintf("Reboot: %v", cfg.Reboot))
 
 	return s.String()
 }
