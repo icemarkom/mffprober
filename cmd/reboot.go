@@ -32,9 +32,10 @@ func RebootFan(cfg *mffp.Config) (int, error) {
 			return 1, fmt.Errorf("error rebooting the fan: %w", err)
 		}
 		r = new(http.Response)
-		r.StatusCode = http.StatusOK
+		r.StatusCode = http.StatusRequestTimeout
 	}
-	if r.StatusCode != http.StatusOK {
+	// Just in a case the fans get API fix, treat StatusOK andd StatusRequestTimeout as success.
+	if r.StatusCode != http.StatusOK && r.StatusCode != http.StatusRequestTimeout {
 		return 1, fmt.Errorf("fan reported HTTP error: %s", r.Status)
 	}
 	if !cfg.Quiet {
