@@ -55,16 +55,16 @@ func ProbeFan(cfg *mffp.Config) int {
 		if err != nil {
 			failCount++
 			log.SetOutput(os.Stderr)
-			log.Printf("Probe #%d: error reading fan information from %q: %v.", probeCount, cfg.Host, err)
+			log.Printf("Probe #%d (%d success, %d fail): error reading fan information from %q: %v.", probeCount, probeCount-failCount, failCount, cfg.Host, err)
 			if cfg.MaxFailCount > 0 && failCount >= cfg.MaxFailCount {
-				return 42
+				return failCount
 			}
 			log.SetOutput(os.Stdout)
 			time.Sleep(cfg.Interval)
 			continue
 		}
 		if !cfg.Quiet {
-			log.Printf("Probe #%d: %s", probeCount, fd)
+			log.Printf("Probe #%d (%d success, %d fail): %s", probeCount, probeCount-failCount, failCount, fd)
 		}
 		time.Sleep(cfg.Interval)
 	}

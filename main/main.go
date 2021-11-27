@@ -79,5 +79,9 @@ func main() {
 	if !cfg.Quiet {
 		log.Print(cfg)
 	}
-	os.Exit(cmd.ProbeFan(&cfg))
+	fc := cmd.ProbeFan(&cfg)
+	if fc > 255 {
+		os.Exit(255)
+	}
+	os.Exit(fc)
 }
