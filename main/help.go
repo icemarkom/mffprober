@@ -3,15 +3,25 @@ package main
 import (
 	"flag"
 	"fmt"
+	"strings"
 )
 
-func programVersion() {
-	fmt.Fprintf(flag.CommandLine.Output(), "Version: %s\n Commit: %s\n", version, gitCommit)
+func programVersion() string {
+	return fmt.Sprintf("Version: %s\n Commit: %s\n", version, gitCommit)
 }
 
 func programUsage() {
-	fmt.Fprintf(flag.CommandLine.Output(), "Usage: %s [flags] hostname.or.ip.address\n\nFlags:\n", binaryName)
+	s := new(strings.Builder)
+
+	s.WriteString(fmt.Sprintf("Usage: %s [flags] hostname.or.ip.address\n\nFlags:\n", binaryName))
+
+	o := flag.CommandLine.Output()
+	flag.CommandLine.SetOutput(s)
 	flag.PrintDefaults()
-	fmt.Fprintln(flag.CommandLine.Output())
-	programVersion()
+	flag.CommandLine.SetOutput(o)
+
+	s.WriteString(fmt.Sprintln())
+	s.WriteString(programVersion())
+
+	fmt.Fprint(flag.CommandLine.Output(), s.String())
 }
