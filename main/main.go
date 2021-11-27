@@ -18,8 +18,8 @@ var (
 	binaryName = "mffprober"
 )
 
-func printVersion(v, g string) {
-	fmt.Printf("Version: %s\n Commit: %s\n", v, g)
+func printVersion() {
+	fmt.Fprint(flag.CommandLine.Output(), programVersion())
 }
 
 func init() {
@@ -40,7 +40,7 @@ func init() {
 	flag.Parse()
 
 	if v {
-		printVersion(version, gitCommit)
+		printVersion()
 		os.Exit(42)
 	}
 
