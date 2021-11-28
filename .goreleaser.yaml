@@ -34,6 +34,8 @@ archives:
     replacements:
       arm: armhf
       darwin: macOS
+    files:
+      - LICENSE
   
 nfpms:
   - id: mffprober
