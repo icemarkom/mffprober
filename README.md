@@ -65,15 +65,15 @@ alas there is no commonly agreed-upon alternative
 [2](https://unix.stackexchange.com/questions/332672/how-to-add-a-third-party-repo-and-key-in-debian/582853#582853)).
 What follows is my _suggested_ approach.
 
-- Download key to `/usr/local/share/keyrings`
+- Download key to `/etc/apt/keyrings`
   ```shell
-  sudo mkdir -p /usr/local/share/keyrings/
+  sudo mkdir -p /etc/apt/keyrings/
   curl -Ls https://github.com/icemarkom/gpg-key/releases/latest/download/markom@gmail.com.asc \
-  | sudo tee /usr/local/share/keyrings/markom@gmail.com.asc
+  | sudo tee /etc/apt/keyrings/markom@gmail.com.asc
   ```
 - Add repository to `/etc/apt/sources.list.d`
   ```shell
-  echo 'deb [signed-by=/usr/local/share/keyrings/markom@gmail.com.asc] https://github.com/icemarkom/mffprober/releases/latest/download/ /' \
+  echo 'deb [signed-by=/etc/apt/keyrings/markom@gmail.com.asc] https://github.com/icemarkom/mffprober/releases/latest/download/ /' \
   | sudo tee /etc/apt/sources.list.d/mffprober.list
   ```
 - Update apt
