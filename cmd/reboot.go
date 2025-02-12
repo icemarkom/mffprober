@@ -27,7 +27,7 @@ import (
 	mffp "github.com/icemarkom/mffprober"
 )
 
-// // RebootFan executes HTTP POST to reboot the fan.
+// RebootFan executes HTTP POST to reboot the fan.
 func RebootFan(cfg *mffp.Config) (int, error) {
 
 	u := fmt.Sprintf("http://%s/%s", cfg.Host, mffp.MFFTarget)
