@@ -37,7 +37,7 @@ nfpms:
   - id: mffprober
     maintainer: "Marko Milivojevic <markom@gmail.com>"
     description: "Modern Forms Fan prober See: https://github.com/icemarkom/mffprober"
-    bindir: /usr/local/bin
+    bindir: /usr/bin
     formats:
       - apk
       - deb
