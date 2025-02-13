@@ -15,11 +15,9 @@ builds:
     targets:
       - linux_amd64
       - linux_arm64
-      - linux_arm
       - darwin_amd64
       - darwin_arm64
       - windows_amd64
-      - windows_386
 
 universal_binaries:
   - id: mffprober
@@ -29,12 +27,9 @@ archives:
   - id: mffprober
     format_overrides:
       - goos: windows
-        format: zip
+        formats: zip
       - goos: darwin
-        format: zip
-    replacements:
-      arm: armhf
-      darwin: macOS
+        formats: zip
     files:
       - LICENSE
   
@@ -47,14 +42,12 @@ nfpms:
       - apk
       - deb
       - rpm
-    replacements:
-      arm: armhf
 
 checksum:
   name_template: 'checksums.txt'
 
 snapshot:
-  name_template: "{{ incpatch .Version }}-dev"
+  version_template: "{{ incpatch .Version }}-dev"
 
 changelog:
   use: github
