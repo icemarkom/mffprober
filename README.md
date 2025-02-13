@@ -25,8 +25,6 @@ mffprober hostname.or.ip.address
 There are a few other flags of interest:
 
 - `count`: Maximum number of probes (0 means unlimited).
-- ~~`exit-on-error`: DEPRECATED: Use maxfail=0 to disable, or a positive value to control (default true).~~
-- ~~`host string`: DEPRECATED: Specify host name/address after the flags.~~
 - `interval`: Polling interval in seconds (default 10 seconds).
 - `maxfail`: Maximum number of failed probes (0 means unlimited) (default 1).
 - `quiet`: Log only polling errors.
@@ -42,13 +40,9 @@ Currently, the binaries are available for:
 
 - Linux (tgz, apk, rpm, deb)
   - amd64
-  - armhf
   - arm64
-- Windows
-  - 32bit
-  - 64bit
-- macOS
-  - Universal
+- Windows (64bit)
+- macOS / darwin (Universal)
 
 ### Installing Linux binaries using apt
 
