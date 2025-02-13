@@ -27,7 +27,7 @@ jobs:
           version: "~> v2"
           args: release --clean
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@master
         with:
@@ -46,6 +46,6 @@ jobs:
       - name: Upload Packages and Release manually
         uses: alexellis/upload-assets@master
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         with:
           asset_paths: '[ "./dist/Packages", "./dist/*Release*" ]'
